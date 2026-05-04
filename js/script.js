@@ -6,6 +6,7 @@ const ac = document.querySelectorAll('.dark-button.no-display');
 let firstValue = 0;
 let operand = '';
 let secondValue = 0;
+let result = 0;
 
 //add
 function add(one, two) {
@@ -63,15 +64,27 @@ operands.forEach(operative => {
         e.preventDefault();
         let symbol = e.currentTarget.textContent;
         
+        // if symbol is different than = sign
         if(symbol != '=') {
-            operand = symbol;
-            console.log('new operand:', operand);
+            // if values already contain data evaluate operation
+            if(firstValue && secondValue && operand) {
+                result = operate(firstValue, operand, secondValue);
+                display.textContent = result;
+                firstValue = result;
+                operand = symbol;
+                result = 0;
+            // if operand has no data assign the current symbol
+            } else {
+                operand = symbol;
+                console.log('new operand:', operand);
+            }
+        // if symbol is = sign and first and second number have data evaluate operation
         } else if (symbol === '=' && firstValue && secondValue) {
-            let result = operate(firstValue, operand, secondValue);
-            console.log('equals:', symbol);
-            console.log('number one:', firstValue);
-            console.log('number two:', secondValue);
-            console.log('result: ', result);
+            result = operate(firstValue, operand, secondValue);
+            // console.log('equals:', symbol);
+            // console.log('number one:', firstValue);
+            // console.log('number two:', secondValue);
+            // console.log('result: ', result);
             display.textContent = result;
         }
     })
