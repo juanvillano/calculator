@@ -71,6 +71,7 @@ operands.forEach(operative => {
                 result = operate(firstValue, operand, secondValue);
                 display.textContent = result;
                 firstValue = result;
+                secondValue = 0;
                 operand = symbol;
                 result = 0;
             // if operand has no data assign the current symbol
