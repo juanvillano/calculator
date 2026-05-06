@@ -43,7 +43,7 @@ function operate(firstNumber, operand, secondNumber) {
     }
 }
 
-// reset 
+// reset calculation
 function resetCalculator() {
     firstValue = '';
     secondValue = '';
