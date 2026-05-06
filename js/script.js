@@ -25,7 +25,7 @@ function multiply(one, two) {
 
 //divide
 function divide(one, two) {
-    if (one || two) return NaN;
+    if (parseInt(two) === 0) return NaN;
     return Math.floor(parseInt(one) / parseInt(two));
 }
 
