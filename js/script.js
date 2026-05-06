@@ -3,9 +3,9 @@ const numbers = document.querySelectorAll('button:not(.no-display)');
 const operands = document.querySelectorAll('button.orange-button');
 const ac = document.querySelectorAll('.dark-button.no-display');
 
-let firstValue = 0;
+let firstValue = '';
 let operand = '';
-let secondValue = 0;
+let secondValue = '';
 let result = 0;
 
 //add
@@ -25,6 +25,7 @@ function multiply(one, two) {
 
 //divide
 function divide(one, two) {
+    if (one || two) return NaN;
     return Math.floor(parseInt(one) / parseInt(two));
 }
 
@@ -42,19 +43,33 @@ function operate(firstNumber, operand, secondNumber) {
     }
 }
 
+// reset 
+function resetCalculator() {
+    firstValue = '';
+    secondValue = '';
+    operand = '';
+}
+
 // show numbers on display
 numbers.forEach(number => {
     number.addEventListener("click", (e) => {
         e.preventDefault();
         let num = e.currentTarget.textContent;
-        if(!firstValue) {
-            firstValue = num;
-            console.log("first number:", firstValue);
-        } else if (firstValue && !secondValue) {
-            secondValue = num;
-            console.log('second number:', secondValue);
-        }
-            display.textContent = num;
+        if (result > 0 && operand && firstValue && secondValue) {
+            resetCalculator();
+            firstValue += num;
+            display.textContent = firstValue;
+        } else {
+            if(!operand) {
+                firstValue += num;
+                display.textContent = firstValue;
+                //console.log("first number:", firstValue);
+            } else if (firstValue && operand) {
+                secondValue += num;
+                display.textContent = secondValue;
+                //console.log('second number:', secondValue);
+            } 
+        }   
     })
 });
 
@@ -71,13 +86,13 @@ operands.forEach(operative => {
                 result = operate(firstValue, operand, secondValue);
                 display.textContent = result;
                 firstValue = result;
-                secondValue = 0;
+                secondValue = '';
                 operand = symbol;
                 result = 0;
             // if operand has no data assign the current symbol
             } else {
                 operand = symbol;
-                console.log('new operand:', operand);
+                //console.log('new operand:', operand);
             }
         // if symbol is = sign and first and second number have data evaluate operation
         } else if (symbol === '=' && firstValue && secondValue) {
@@ -98,9 +113,7 @@ ac.forEach(button => {
 
         if(button === 'AC') {
             display.textContent = '0';
-            firstValue = 0;
-            secondValue = 0;
-            operand = '';
+            resetCalculator();
         }
 
     });
